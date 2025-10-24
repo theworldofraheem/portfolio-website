@@ -6,6 +6,8 @@ import SkillsSection from "./components/SkillsSection";
 import HeroSection from "./components/HeroSection"; 
 import ContactSection from "./components/ContactSection";
 import SocietiesSection from "./components/SocietiesSection"
+import ExperienceSection from "./components/ExperienceSection";
+
 
 export default function Home() {
   const [binaryNumbers, setBinaryNumbers] = useState([]);
@@ -59,7 +61,13 @@ export default function Home() {
           
           {/* Left Side - Image & Social Links */}
           <div className="flex flex-col items-center md:items-start">
-            <img src="/portfolioimage.png" className="w-48 h-48 rounded-full border-4 border-white shadow-lg" />
+            <img
+            src="/portfolioimage.png"
+            alt="Raheem Madeleka receiving award at Memorial University"
+            className="w-64 h-auto rounded-2xl border-4 border-white shadow-lg object-cover"
+            style={{ maxHeight: "400px" }}
+/>
+
 
             {/* Social Links */}
             <div className="flex mt-4 space-x-4">
@@ -77,8 +85,11 @@ export default function Home() {
 
           {/* Right Side - About Me Info */}
           <div className="max-w-2xl">
-  <h2 className="text-4xl font-bold text-center md:text-left">About Me</h2>
-  <hr className="border-t border-gray-600 my-4" />
+            <div className="text-center">
+            <h2 className="text-4xl font-bold">About Me</h2>
+            <hr className="border-t border-gray-600 my-4 mx-auto w-1/2" />
+            </div>
+
 
   <h3 className="text-xl font-semibold flex items-center">
     Education
@@ -119,6 +130,8 @@ export default function Home() {
 
         </div>
       </section>
+      {/* ✅ EXPERIENCE SECTION */}
+      <ExperienceSection />
       {/* ✅ ADDING Societies SECTION BELOW */}
       <SocietiesSection />
 

@@ -35,7 +35,7 @@ export default function Navbar() {
         </div>
 
         {/* Resume Button */}
-        <a href="/resumeweb.pdf" download>
+        <a href="/Resume.pdf" download>
           <button className="bg-green-500 text-black px-4 py-2 rounded-md font-bold transition">
             My Resume
           </button>
