@@ -1,103 +1,132 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Navbar from "./components/Navbar"; 
+import SkillsSection from "./components/SkillsSection"; 
+import HeroSection from "./components/HeroSection"; 
+import ContactSection from "./components/ContactSection";
+import SocietiesSection from "./components/SocietiesSection"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [binaryNumbers, setBinaryNumbers] = useState([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    // ✅ Generate random positions AFTER hydration (client-side only)
+    const generatedNumbers = Array.from({ length: 50 }).map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      number: Math.random() > 0.5 ? "0" : "1",
+    }));
+
+    setBinaryNumbers(generatedNumbers);
+  }, []);
+
+  return (
+    <div className="relative w-full bg-black"> 
+
+      {/* ✅ Navbar */}
+      <Navbar />
+
+      {/* ✅ Floating Binary Numbers */}
+      <div className="fixed inset-0 w-full h-full pointer-events-none z-0">
+        {binaryNumbers.map((pos, i) => (
+          <motion.span
+            key={i}
+            className="absolute text-green-400 font-bold opacity-30"
+            style={{ left: pos.left, top: pos.top }}
+            animate={{
+              x: [0, Math.random() * 200 - 100, 0],
+              y: [0, Math.random() * 200 - 100, 0],
+              opacity: [0.1, 0.5, 0.1],
+            }}
+            transition={{
+              duration: Math.random() * 4 + 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {pos.number}
+          </motion.span>
+        ))}
+      </div>
+
+      {/* ✅ HERO SECTION - SHOULD BE AT THE TOP */}
+      <HeroSection />
+
+      {/* ✅ ABOUT ME SECTION */}
+      <section id="about" className="relative h-screen flex items-center justify-center text-white snap-start px-6 md:px-12 z-10">
+        <div className="max-w-5xl w-full flex flex-col md:flex-row items-center gap-8">
+          
+          {/* Left Side - Image & Social Links */}
+          <div className="flex flex-col items-center md:items-start">
+            <img src="/portfolioimage.png" className="w-48 h-48 rounded-full border-4 border-white shadow-lg" />
+
+            {/* Social Links */}
+            <div className="flex mt-4 space-x-4">
+              <a href="https://www.linkedin.com/in/raheemmadeleka/" target="_blank" rel="noopener noreferrer">
+                <img src="/brands/linkedin.svg" alt="LinkedIn" className="w-8 h-8 invert" />
+              </a>
+              <a href="https://github.com/theworldofraheem" target="_blank" rel="noopener noreferrer">
+                <img src="/brands/github.svg" alt="GitHub" className="w-8 h-8 invert" />
+              </a>
+              <a href="mailto:rjmadeleka@mun.ca">
+                <img src="/brands/envelope.svg" alt="Email" className="w-8 h-8 invert" />
+              </a>
+            </div>
+          </div>
+
+          {/* Right Side - About Me Info */}
+          <div className="max-w-2xl">
+  <h2 className="text-4xl font-bold text-center md:text-left">About Me</h2>
+  <hr className="border-t border-gray-600 my-4" />
+
+  <h3 className="text-xl font-semibold flex items-center">
+    Education
+    <a target="_blank" rel="noopener noreferrer">
+      <img 
+        src="/brands/memorial.svg" 
+        alt="Memorial University of Newfoundland"
+        className="w-10 h-10 ml-3 invert transition-transform duration-300 transform hover:scale-110 hover:opacity-80"
+      />
+    </a>
+  </h3>
+  
+  <p className="text-gray-300">
+    Bachelor of Computer Science & Data Science, Memorial University of Newfoundland
+    <br />Expected Graduation: May 2027
+  </p>
+
+  <h3 className="text-xl font-semibold mt-4">Who am I?</h3>
+
+  <p className="text-gray-300 mt-4">
+    <span className="font-semibold">Tech Journey:</span> I'm all about coding adventures! From whipping up Java and Python magic 
+    to crafting projects with HTML, CSS, and JavaScript, I'm on a mission to explore every corner of the digital universe. 
+    I have used multiple software tools, including Unity and GitHub, to help me on my learning journey!
+  </p>
+
+  <p className="text-gray-300 mt-4">
+    <span className="font-semibold">Mentor:</span> Need a coding buddy or a dose of motivation? Look no further! 
+    I'm all about lifting each other up. Whether it's cracking coding problems or just lending an ear, 
+    I'm here to cheer you on every step of the way.
+  </p>
+
+  <p className="text-gray-300 mt-4">
+    <span className="font-semibold">Ready for Action:</span> I'm on the lookout for exciting opportunities to challenge myself and 
+    make a meaningful impact. If you're on the hunt for a passionate team player who brings good vibes 
+    and great code to the table, let's chat!
+  </p>
+</div>
+
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+      {/* ✅ ADDING Societies SECTION BELOW */}
+      <SocietiesSection />
+
+      {/* ✅ ADDING SKILLS SECTION BELOW */}
+      <SkillsSection />
+
+      {/* ✅ Adding Contact Section */}
+      <ContactSection />
     </div>
   );
 }
